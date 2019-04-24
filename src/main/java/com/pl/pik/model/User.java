@@ -1,4 +1,4 @@
-package com.pl.pik.hello;
+package com.pl.pik.model;
 
 import javax.persistence.*;
 
@@ -7,17 +7,19 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
+    String username;
+
     @Column(name="driver_id")
     long driverId;
 
-    private String login;
-    private String password;
+    String password;
+
+    Boolean enabled;
 
     protected User() {}
 
-    public User(String login, String password) {
-        this.login = login;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
@@ -29,13 +31,14 @@ public class User {
         this.driverId = driverId;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUserName(String username) {
+        this.username = username;
     }
+
 
     public String getPassword() {
         return password;
@@ -45,10 +48,19 @@ public class User {
         this.password = password;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+
     @Override
     public String toString() {
         return String.format(
                 "User[id=%d, Login='%s', Password='%s']",
-                driverId, login, password);
+                driverId, username, password);
     }
 }
