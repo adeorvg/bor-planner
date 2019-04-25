@@ -1,0 +1,4 @@
+1. Create a postgres DB using the script "schema_creation.sql"; Insert a data using the "data_insertion.sql" script; Run other scripts if present in resources -> sqlresources.
+2. Change the application.properties.example name to application.properties; change password to your
+3. "gradle bootRun" to download dependencies and run the Spring application or set automatic behaviour in IDE
+4. "npm install" in an Angular folder to install node modules; "ng serve" to start the Angular application

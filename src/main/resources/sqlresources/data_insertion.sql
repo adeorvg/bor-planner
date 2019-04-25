@@ -81,46 +81,46 @@ VALUES (19, 'Piotr', 'Szary', 'pszary.vip@gmail.com');
 INSERT INTO public.passengers(id, first_name, last_name, email)
 VALUES (20, 'Maurycy', 'Dolina', 'mdolina.vip@gmail.com');
 
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('07012527358', 'mklos', 'FE38924C1F6CBF1BABAC662820A54031');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('13102123397', 'mnowakowski', 'C8FB39AECF91AF9566BE2EC2FCB7C1A9');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('41090788874', 'bkowalski', 'DC5C01575C83E645EA9704B5C9685DC3');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('00221232880', 'jnowak', 'E836E670C8B4367A1F957657621F37EB');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('07012527359', 'mnietoperz', '2C2E762F395C77190B2289CA51D7F2F1');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('13102123398', 'mchlopski', '0BF55C8A7ABB01F3FD5240A801DD445D');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('41090788875', 'sniski', '50AD440B27B9A83169EC8FAAF27E7AA9');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('00221232881', 'mwysoki', '031C5BF3B52AF55C6F88A3E085D69CF0');
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('75083101483', 'kwolny', '1B7C68C7BB91FE75AA168293686C0E47');
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('16211625543', 'astefaniak', 'BA127ADD01A5628931F4C47AA98F3B04');
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('46040469700', 'mkowalski', '6D4CBB3455A7EFE6E9FA305416319F43');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('18110259748', 'pbosak', '99FBDA48FA36F5EF1B09CC0D10C4DE63');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('22010219924', 'wkrosno', '3C51A2F1A112074817F560DB6E9E8E29');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('30101012646', 'sworkowski', '531493BAEDBE208C3FFC24BBFE33551B');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('87071650165', 'bkowalewicz', 'C46EDD57AE55E7FBA90700977C8810B1');
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('93032383759', 'bwielski', '921589CF67B8AC074E166E213F82D9FD');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('80010317011', 'skozlowski', '05A2DF47347563902D89A66B22DD465B');
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('18220540925', 'tniewiem', '287B264C613872A2C752A849ED4ACA29');
-INSERT INTO public.users (driver_id, login, password) 
-VALUES ('70051863134', 'mwiatr', '4842EA71397A05FFBF5366B099AE696B');
-INSERT INTO public.users (driver_id, login, password)
- VALUES ('77050604713', 'kadamczyk', '9D128E533B02B1C276A72B88873C5191');
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('07012527358', 'mklos', 'FE38924C1F6CBF1BABAC662820A54031', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('13102123397', 'mnowakowski', 'C8FB39AECF91AF9566BE2EC2FCB7C1A9', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('41090788874', 'bkowalski', 'DC5C01575C83E645EA9704B5C9685DC3', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('00221232880', 'jnowak', 'E836E670C8B4367A1F957657621F37EB', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('07012527359', 'mnietoperz', '2C2E762F395C77190B2289CA51D7F2F1', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('13102123398', 'mchlopski', '0BF55C8A7ABB01F3FD5240A801DD445D', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('41090788875', 'sniski', '50AD440B27B9A83169EC8FAAF27E7AA9', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('00221232881', 'mwysoki', '031C5BF3B52AF55C6F88A3E085D69CF0', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('75083101483', 'kwolny', '1B7C68C7BB91FE75AA168293686C0E47', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('16211625543', 'astefaniak', 'BA127ADD01A5628931F4C47AA98F3B04', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('46040469700', 'mkowalski', '6D4CBB3455A7EFE6E9FA305416319F43', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('18110259748', 'pbosak', '99FBDA48FA36F5EF1B09CC0D10C4DE63', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('22010219924', 'wkrosno', '3C51A2F1A112074817F560DB6E9E8E29', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('30101012646', 'sworkowski', '531493BAEDBE208C3FFC24BBFE33551B', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('87071650165', 'bkowalewicz', 'C46EDD57AE55E7FBA90700977C8810B1', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('93032383759', 'bwielski', '921589CF67B8AC074E166E213F82D9FD', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('80010317011', 'skozlowski', '05A2DF47347563902D89A66B22DD465B', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('18220540925', 'tniewiem', '287B264C613872A2C752A849ED4ACA29', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+VALUES ('70051863134', 'mwiatr', '4842EA71397A05FFBF5366B099AE696B', TRUE);
+INSERT INTO public.users (driver_id, username, password, enabled)
+ VALUES ('77050604713', 'kadamczyk', '9D128E533B02B1C276A72B88873C5191', TRUE);
 
 
 INSERT INTO public.cars (registration_number, mark, model, production_date) 
