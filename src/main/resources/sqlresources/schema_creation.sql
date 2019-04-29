@@ -20,9 +20,10 @@ CREATE TABLE public.passengers
 CREATE TABLE public.users
 (
     driver_id character varying COLLATE pg_catalog."default" NOT NULL,
-    login character varying COLLATE pg_catalog."default" NOT NULL,
+    username character varying COLLATE pg_catalog."default" NOT NULL,
     password character varying COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT users_pkey PRIMARY KEY (login),
+    enabled boolean NOT NULL,
+    CONSTRAINT users_pkey PRIMARY KEY (username),
     CONSTRAINT users_drivers_pesel_fk FOREIGN KEY (driver_id)
         REFERENCES public.drivers (pesel) MATCH SIMPLE
         ON UPDATE NO ACTION
