@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -9,42 +10,33 @@ import {Observable, throwError} from "rxjs";
 })
 export class HomeComponent implements OnInit {
 
-  userName: string;
+  username: string;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {
   }
 
   ngOnInit() {
-    let url = "http://localhost:5000/user";
+    let url = "http://localhost:8082/user";
     let headers: HttpHeaders = new HttpHeaders({
       "Authorization": "Basic " + sessionStorage.getItem('token')
     });
     let options = {headers: headers}
     this.http.post<Observable<Object>>(url, {}, options)
       .subscribe(res => {
-          this.userName = res['name']
+          this.username = res['name']
         },
         error => {
-          if (error.status == 401)
-            alert('Access Denied - unauthorized');
+          if (error.status == 401) {
+            this.router.navigate(['/login']);
+          }
         }
       );
   }
 
-  logout(){
+  logout() {
     sessionStorage.setItem('token', '');
   }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    return throwError(
-      'Something bad happened; please try again later.');
-  };
-
 }
