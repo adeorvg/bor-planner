@@ -1,10 +1,10 @@
 package com.pl.pik.model;
 
+import org.springframework.data.repository.CrudRepository;
+
 import java.util.List;
 
-public class CarRepository {
-    List<User> findByRegistrationNumber(String registrationNumber);
-
-    @Query("SELECT a FROM Article a WHERE a.title=:title and a.category=:category")
-    List<Article> freeCars(@Param("title") String title, @Param("category") String category);
+public interface CarRepository extends CrudRepository<Car, Long> {
+    Car findByRegistrationNumber(String registrationNumber);
+    List<Car> findAll();
 }
