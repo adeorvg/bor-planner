@@ -1,24 +1,18 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { CalendarView, CalendarEventAction, CalendarEvent, CalendarEventTimesChangedEvent, CalendarDateFormatter} from 'angular-calendar';
+import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
 import { Subject } from 'rxjs';
-import { startOfDay, endOfDay,  subDays,  addDays,  endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDateFormatter } from './CustomDateFormatter';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import { RideCalendarEvent } from '../model/rideCalendarEvent';
+import { Schedule } from '../model/schedule';
+import { Car } from '../model/car';
+import { Driver } from '../model/driver';
+import { DriversService } from '../service/driversService';
+import { CarAvailabilityService } from '../service/carAvailabilityService';
+import { SchedulePlannerService } from '../service/SchedulePlanerService';
+import { Passanger } from '../model/passanger';
+import { VipService } from '../service/vipService';
 
 @Component({
   selector: 'rides-calendar',
@@ -32,89 +26,64 @@ const colors: any = {
   ]
 })
 
-
 export class RidesCalendarComponent implements OnInit {
- 
+
+  drivers: Array<String> = new Array();
+  cars: Array<String> = new Array();
+  events: Array<RideCalendarEvent> = new Array();
+  dayEvents: Array<RideCalendarEvent> = new Array();
+  VIPs : Array<String> = new Array();
+  chosenDate : Date;
+
+  activeDayIsOpen: boolean
+
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   locale: string = 'pl';
+
+
+  constructor(private modal: NgbModal, private driversService: DriversService,
+    private carService: CarAvailabilityService, private schedulePlannerService : SchedulePlannerService,
+    private vipService: VipService) { }
+
   ngOnInit() {
+    this.activeDayIsOpen = true;
+
+    this.driversService.getAllDrivers().subscribe((drivers: Driver[]) => {
+      drivers.forEach((driver: Driver) => this.drivers.push(driver.lastName));
+    });
+    this.carService.getAllCars().subscribe((cars: Car[]) => {
+      cars.forEach((car: Car) => this.cars.push(car.registrationNumber));
+    });
+    this.vipService.getAllVIPs().subscribe((VIPs: Passanger[]) => {
+      VIPs.forEach((VIP: Passanger) => this.VIPs.push(VIP.lastName));
+    });
+    this.schedulePlannerService.getAllSchedules().subscribe((schedules: Schedule[]) => {
+      schedules.forEach((receivedSchedule : Schedule) => {
+        this.events.push({
+            start: new Date(receivedSchedule.dateFrom),
+            end: new Date(receivedSchedule.dateTo),
+            title: 'pzejazd VIP (jakiś to string)',
+            allDay: false,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true
+            },
+            draggable: true,
+            schedule: receivedSchedule
+        })
+      })
+      this.dayEvents = this.events.filter(event => isSameDay(event.start, new Date()));
+    });
   }
 
 
- CalendarView = CalendarView;
-
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
+  CalendarView = CalendarView;
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
-
-  activeDayIsOpen: boolean = true;
-
-  constructor(private modal: NgbModal) {}
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+   dayClicked({ date, events }: { date: Date; events: RideCalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       this.viewDate = date;
       if (
@@ -126,29 +95,8 @@ export class RidesCalendarComponent implements OnInit {
         this.activeDayIsOpen = true;
       }
     }
-  }
-
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map(iEvent => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.dayEvents = this.events.filter(event => isSameDay(event.start, date));
+    this.chosenDate = date;
   }
 
   addEvent(): void {
@@ -156,20 +104,26 @@ export class RidesCalendarComponent implements OnInit {
       ...this.events,
       {
         title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
+        start: this.chosenDate,
+        end: this.chosenDate,
         draggable: true,
         resizable: {
           beforeStart: true,
           afterEnd: true
-        }
+        },
+        schedule: new Schedule()
       }
     ];
+    this.dayEvents = this.events.filter(event => isSameDay(event.start, this.chosenDate));
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  deleteEvent(eventToDelete: RideCalendarEvent) {
     this.events = this.events.filter(event => event !== eventToDelete);
+    this.schedulePlannerService.deleteSchedule(eventToDelete.schedule);
+  }
+
+  saveEvent(eventToSave: RideCalendarEvent) {
+    this.schedulePlannerService.saveSchedule(eventToSave.schedule);
   }
 
   setView(view: CalendarView) {

@@ -22,6 +22,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import localePl from '@angular/common/locales/pl';
+import { SchedulePlannerService } from './service/SchedulePlanerService';
 
 registerLocaleData(localePl);
 
@@ -56,7 +57,7 @@ registerLocaleData(localePl);
       useFactory: adapterFactory
     })
   ],
-  providers: [CarAvailabilityService],
+  providers: [CarAvailabilityService, SchedulePlannerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

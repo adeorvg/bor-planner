@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class CarAvailabilityService {
 
     private apiEndpointAvailableCars = environment.apiEndpointAvailableCars;
-
+    private apiEndpointAllCars = environment.apiEnddpointAllCars;
     constructor(private http: HttpClient) {
 
     }
@@ -29,6 +29,12 @@ export class CarAvailabilityService {
         console.log(url);
       return this.http.get<Car[]>(url, {params});
 
+    }
+
+
+    getAllCars() : Observable<Car[]> {
+        const url = `${this.apiEndpointAllCars}`;
+        return this.http.get<Car[]>(url);
     }
 
 
