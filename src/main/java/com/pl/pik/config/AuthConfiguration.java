@@ -31,6 +31,7 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/free_cars").permitAll()
+                .antMatchers("/all_cars").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
