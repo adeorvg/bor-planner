@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AllDriversController {
+public class DriversController {
 
     @Autowired
     DriverRepository driverRepository;
 
-    @ResponseBody @GetMapping("/all_drivers")
+    @ResponseBody @GetMapping("/api/drivers")
     public String carsController ()  {
         return driverRepository.findAll().toString();
     }

@@ -19,7 +19,7 @@ public class FreeCarsController {
     @Autowired
     ScheduleRepository scheduleRepository;
 
-    @ResponseBody @GetMapping("/free_cars")
+    @ResponseBody @GetMapping("/freedars")
     public String carsController (@RequestParam (value="dateFrom") Timestamp dF,
                                   @RequestParam (value="dateTo") Timestamp dT)  {
         List<Car> freeCars = carRepository.findAll();
