@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name="schedule")
@@ -35,6 +36,14 @@ public class Schedule {
     Timestamp dateTo;
 
     protected Schedule() {
+    }
+
+    public Schedule(String placeFrom, String placeTo, Timestamp dateFrom, Timestamp dateTo,
+                    long driverId, long passengerId, String carId) {
+        this.placeFrom = placeFrom; this.placeTo = placeTo;
+        this.dateFrom = dateFrom; this.dateTo = dateTo;
+        this.driverId = driverId; this.passengerId = passengerId;
+        this.carId = carId;
     }
 
     public long getId() {
@@ -99,6 +108,25 @@ public class Schedule {
 
     public void setDateTo(Timestamp dateTo) {
         this.dateTo = dateTo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Schedule)) return false;
+        Schedule schedule = (Schedule) o;
+        return driverId == schedule.driverId &&
+                passengerId == schedule.passengerId &&
+                carId.equals(schedule.carId) &&
+                placeFrom.equals(schedule.placeFrom) &&
+                placeTo.equals(schedule.placeTo) &&
+                dateFrom.equals(schedule.dateFrom) &&
+                dateTo.equals(schedule.dateTo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(passengerId, carId, placeFrom, placeTo, dateFrom, dateTo);
     }
 
     @Override
