@@ -29,11 +29,18 @@ import { VipService } from '../service/vipService';
 export class RidesCalendarComponent implements OnInit {
 
   drivers: Array<String> = new Array();
+  driversFullData : Array<Driver> = new Array();
+
   cars: Array<String> = new Array();
+  carsFullData: Array<Car> = new Array()
+
+  VIPs : Array<String> = new Array();
+  VIPFullData : Array<Passanger> = new Array();
+
   events: Array<RideCalendarEvent> = new Array();
   dayEvents: Array<RideCalendarEvent> = new Array();
-  VIPs : Array<String> = new Array();
-  chosenDate : Date;
+
+  chosenDate : Date = new Date();
 
   activeDayIsOpen: boolean
 
@@ -51,20 +58,32 @@ export class RidesCalendarComponent implements OnInit {
     this.activeDayIsOpen = true;
 
     this.driversService.getAllDrivers().subscribe((drivers: Driver[]) => {
-      drivers.forEach((driver: Driver) => this.drivers.push(driver.lastName + " " + driver.firstName));
+      drivers.forEach((driver: Driver) => {
+        this.drivers.push(driver.firstName + " " + driver.lastName);
+        this.driversFullData.push(driver);
+      })
     });
+
     this.carService.getAllCars().subscribe((cars: Car[]) => {
-      cars.forEach((car: Car) => this.cars.push(car.registrationNumber));
+      cars.forEach((car: Car) => {
+        this.cars.push(car.registrationNumber);
+        this.carsFullData.push(car);
+      })
     });
+
     this.vipService.getAllVIPs().subscribe((VIPs: Passanger[]) => {
-      VIPs.forEach((VIP: Passanger) => this.VIPs.push(VIP.lastName + " " + VIP.firstName));
+      VIPs.forEach((VIP: Passanger) => {
+        this.VIPs.push(VIP.firstName + " " + VIP.lastName);
+        this.VIPFullData.push(VIP);
+      });
     });
+
     this.schedulePlannerService.getAllSchedules().subscribe((schedules: Schedule[]) => {
       schedules.forEach((receivedSchedule : Schedule) => {
         this.events.push({
             start: new Date(receivedSchedule.dateFrom),
             end: new Date(receivedSchedule.dateTo),
-            title: 'pzejazd VIP (jakiś to string)',
+            title: 'przejazd VIP (jakiś to string)',
             allDay: false,
             resizable: {
               beforeStart: true,
@@ -118,12 +137,24 @@ export class RidesCalendarComponent implements OnInit {
   }
 
   deleteEvent(eventToDelete: RideCalendarEvent) {
+    let scheduleToDelete = eventToDelete.schedule;
+    scheduleToDelete.dateFrom = eventToDelete.start;
+    scheduleToDelete.dateTo = eventToDelete.end;
+       //TODO result handling - exception alert or dialog confirming that schedule was saved successfully
+    this.schedulePlannerService.deleteSchedule(scheduleToDelete).subscribe();
     this.events = this.events.filter(event => event !== eventToDelete);
-    this.schedulePlannerService.deleteSchedule(eventToDelete.schedule);
   }
 
   saveEvent(eventToSave: RideCalendarEvent) {
-    this.schedulePlannerService.saveSchedule(eventToSave.schedule);
+    let scheduleToSave = eventToSave.schedule;
+
+    scheduleToSave.dateFrom = eventToSave.start;
+    scheduleToSave.dateTo = eventToSave.end;
+
+
+    console.log(scheduleToSave);
+    //TODO result handling - exception alert or dialog confirming that schedule was saved successfully
+    this.schedulePlannerService.saveSchedule(eventToSave.schedule).subscribe();
   }
 
   setView(view: CalendarView) {
@@ -133,5 +164,26 @@ export class RidesCalendarComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+
+  changeVIPValue(event, schedule : Schedule){
+      let VIP = event.target.value;
+      let firstName = VIP.split(" ")[0];
+      let lastName = VIP.split(" ")[1];
+      schedule.passenger = this.VIPFullData.find((passenger : Passanger) => passenger.firstName == firstName && passenger.lastName == lastName);
+  }
+
+  changeDriverValue(event, schedule : Schedule){
+    let newDriver = event.target.value;
+    let firstName = newDriver.split(" ")[0];
+    let lastName = newDriver.split(" ")[1];
+
+    schedule.driver = this.driversFullData.find((driver : Driver) => driver.firstName == firstName && driver.lastName == lastName);
+  }
+
+  changeCarValue(event, schedule){
+    let carRegistrationNumber = event.target.value;
+    schedule.car = this.carsFullData.find((car : Car) => car.registrationNumber == carRegistrationNumber);
+  }
+
 
 }

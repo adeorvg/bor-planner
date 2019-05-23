@@ -1,9 +1,6 @@
 package com.pl.pik.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -12,16 +9,23 @@ import java.util.Objects;
 public class Schedule {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_generator")
+    @SequenceGenerator(name="schedule_generator", sequenceName = "schedule_seq")
     long id;
 
-    @Column(name = "driver_id")
-    long driverId;
 
-    @Column(name = "passenger_id")
-    long passengerId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
 
-    @Column(name = "car_id")
-    String carId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "passenger_id")
+    private Passanger passenger;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
+    private Car car;
 
     @Column(name = "place_from")
     String placeFrom;
@@ -38,12 +42,16 @@ public class Schedule {
     protected Schedule() {
     }
 
-    public Schedule(String placeFrom, String placeTo, Timestamp dateFrom, Timestamp dateTo,
-                    long driverId, long passengerId, String carId) {
-        this.placeFrom = placeFrom; this.placeTo = placeTo;
-        this.dateFrom = dateFrom; this.dateTo = dateTo;
-        this.driverId = driverId; this.passengerId = passengerId;
-        this.carId = carId;
+    public Schedule(long id, Driver driver, Passanger passenger, Car car, String placeFrom, String placeTo,
+                    Timestamp dateFrom, Timestamp dateTo) {
+        this.id = id;
+        this.driver = driver;
+        this.passenger = passenger;
+        this.car = car;
+        this.placeFrom = placeFrom;
+        this.placeTo = placeTo;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
     }
 
     public long getId() {
@@ -52,30 +60,6 @@ public class Schedule {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(long driverId) {
-        this.driverId = driverId;
-    }
-
-    public long getPassengerId() {
-        return passengerId;
-    }
-
-    public void setPassengerId(long passengerId) {
-        this.passengerId = passengerId;
-    }
-
-    public String getCarId() {
-        return carId;
-    }
-
-    public void setCarId(String carId) {
-        this.carId = carId;
     }
 
     public String getPlaceFrom() {
@@ -115,9 +99,9 @@ public class Schedule {
         if (this == o) return true;
         if (!(o instanceof Schedule)) return false;
         Schedule schedule = (Schedule) o;
-        return driverId == schedule.driverId &&
-                passengerId == schedule.passengerId &&
-                carId.equals(schedule.carId) &&
+        return driver.equals(schedule.driver) &&
+                passenger.equals(schedule.passenger) &&
+                car.equals(schedule.car) &&
                 placeFrom.equals(schedule.placeFrom) &&
                 placeTo.equals(schedule.placeTo) &&
                 dateFrom.equals(schedule.dateFrom) &&
@@ -126,20 +110,42 @@ public class Schedule {
 
     @Override
     public int hashCode() {
-        return Objects.hash(passengerId, carId, placeFrom, placeTo, dateFrom, dateTo);
+        return Objects.hash(passenger, car, placeFrom, placeTo, dateFrom, dateTo);
     }
 
     @Override
     public String toString() {
         return "Schedule{" +
                 "id:" + id +
-                ", driverId:" + driverId +
-                ", passengerId:" + passengerId +
-                ", carId:" + carId +
+                passenger.toString() + car.toString() + driver.toString() +
                 ", placeFrom:'" + placeFrom + '\'' +
                 ", placeTo:'" + placeTo + '\'' +
                 ", dateFrom:" + dateFrom +
                 ", dateTo:" + dateTo +
                 '}';
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public Passanger getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(Passanger passenger) {
+        this.passenger = passenger;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 }

@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Schedule } from '../model/schedule';
+
+const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  };
 
 @Injectable({
     providedIn: 'root',
 })
+
 
 export class SchedulePlannerService {
 
@@ -35,12 +42,15 @@ export class SchedulePlannerService {
     deleteSchedule(schedule : Schedule) {
         const url = `${this.apiEndpointCancelSchedule}`;
         let param = new HttpParams()
-        .set('schedule', schedule.id);
-      //  return this.http.delete<Schedule>(url, param);
+        .set('schedule', JSON.stringify(schedule));
+        let options = { params: param };
+
+      //  let body = JSON.stringify(schedule);
+        return this.http.delete<Schedule>(url, options);
     }
 
     saveSchedule(schedule : Schedule) {
         const url = `${this.apiEndpointSaveSchedule}`;
-        return this.http.post<Schedule>(url, schedule)
+        return this.http.post<Schedule>(url, schedule, httpOptions);
       }
 }

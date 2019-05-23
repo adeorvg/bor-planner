@@ -1,13 +1,13 @@
 package com.pl.pik.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="cars")
 public class Car {
+
+
     @Id
     @Column(name="registration_number")
     String registrationNumber;
@@ -17,7 +17,7 @@ public class Car {
     String model;
 
     @Column(name="production_date")
-    String productionDate;
+    Date productionDate;
 
     protected Car() {}
 
@@ -45,11 +45,11 @@ public class Car {
         this.model = model;
     }
 
-    public String getProductionDate() {
+    public Date getProductionDate() {
         return productionDate;
     }
 
-    public void setProductionDate(String productionDate) {
+    public void setProductionDate(String Date) {
         this.productionDate = productionDate;
     }
 

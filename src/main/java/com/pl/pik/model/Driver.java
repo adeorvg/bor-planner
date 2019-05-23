@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Driver {
 
     @Id
-    long pesel;
+    String pesel;
 
     @Column(name = "first_name")
     String firstName;
@@ -26,11 +26,11 @@ public class Driver {
     protected Driver() {
     }
 
-    public long getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(long pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

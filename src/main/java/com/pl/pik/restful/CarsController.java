@@ -33,7 +33,7 @@ public class CarsController {
         List<Car> freeCars = carRepository.findAll();
         for (Schedule schedule:scheduleRepository.findAll()) {
             if (! (schedule.getDateFrom().after(dT) || schedule.getDateTo().before(dF)) ) {
-                freeCars.remove(carRepository.findByRegistrationNumber(schedule.getCarId()));
+                freeCars.remove(carRepository.findByRegistrationNumber(schedule.getCar().getRegistrationNumber()));
             }
         }
         return freeCars.toString();

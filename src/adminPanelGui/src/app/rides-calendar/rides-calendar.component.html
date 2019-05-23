@@ -84,23 +84,23 @@
               dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
           </td>
           <td>
-            <input type="text" [(ngModel)]="event.schedule.startPlace" (change)="refresh.next()" />
+            <input type="text" [(ngModel)]="event.schedule.placeFrom" (change)="refresh.next()" />
           </td>
           <td>
-            <input type="text" [(ngModel)]="event.schedule.endPlace" (change)="refresh.next()" />
+            <input type="text" [(ngModel)]="event.schedule.placeTo" (change)="refresh.next()" />
           </td>
           <td>
-            <select value="event.schedule.passanger.lastName" placeholder="vip" id="vip" name="vip"  (change)="changeVIPValue($event)">
+            <select value="event.schedule.passenger.lastName" placeholder="vip" id="vip" name="vip"  (change)="changeVIPValue($event, event.schedule)">
                 <option *ngFor="let vip of VIPs" [ngValue]="vip">{{vip}}</option>
             </select>
           </td>
           <td>
-            <select value="event.schedule.driver.lastName" placeholder="kierowca" id="driver" name="driver"  (change)="changeDriverValue($event)">
+            <select value="event.schedule.driver.lastName" placeholder="kierowca" id="driver" name="driver"  (change)="changeDriverValue($event, event.schedule)">
                 <option *ngFor="let driver of drivers" [ngValue]="driver">{{driver}}</option>
             </select>
           </td>
           <td>
-            <select value="event.schedule.car.registrationNumber" placeholder="Samochód" id="car" name="car"  (change)="changeCarValue($event)">
+            <select value="event.schedule.car.registrationNumber" placeholder="Samochód" id="car" name="car"  (change)="changeCarValue($event, event.schedule)">
                 <option *ngFor="let car of cars" [ngValue]="car">{{car}}</option>
             </select>
           </td>

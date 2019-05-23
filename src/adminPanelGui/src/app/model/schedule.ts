@@ -6,9 +6,9 @@ export class Schedule {
     id : string;
     driver : Driver;
     car : Car;
-    passanger : Passanger;
-    startPlace : string;
-    endPlace : string;
+    passenger : Passanger;
+    placeFrom : string;
+    placeTo : string;
     dateFrom : Date;
     dateTo : Date;
 

@@ -62,6 +62,7 @@ public class Passanger {
         return   "{ \"firstName\":\"" + firstName + "\"" +
                         ", \"lastName\":\"" + lastName + "\"" +
                         ", \"email\":\"" + email + "\"" +
+                        ", \"id\":\"" + id + "\"" +
                         "}";
     }
 }

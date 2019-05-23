@@ -1,5 +1,5 @@
 export class Passanger {
-    pesel : string;
+    id : string;
     firstName : string;
     lastName : string;
     email : string;

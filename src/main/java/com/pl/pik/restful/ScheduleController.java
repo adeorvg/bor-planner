@@ -4,15 +4,17 @@ import com.pl.pik.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/schedules")
+
 public class ScheduleController {
 
     @Autowired
     ScheduleRepository scheduleRepository;
+
+
 
     @RequestMapping("/save")
     public boolean scheduleSave(@RequestBody Schedule scheduleToSave){
@@ -36,13 +38,13 @@ public class ScheduleController {
     }
 
     private boolean isCollidindgWithSchedulesInDb(Schedule scheduleToSave){
-        List<Schedule> busyDrivers= scheduleRepository.findByDriverId(scheduleToSave.getDriverId());
+        List<Schedule> busyDrivers= scheduleRepository.findByDriver(scheduleToSave.getDriver());
         isScheduleDateColidingWithSchedules(scheduleToSave,busyDrivers);
 
-        List<Schedule> busyCars = scheduleRepository.findByCarId(scheduleToSave.getCarId());
+        List<Schedule> busyCars = scheduleRepository.findByCar(scheduleToSave.getCar());
         isScheduleDateColidingWithSchedules(scheduleToSave,busyCars);
 
-        List<Schedule> busyPassengers = scheduleRepository.findByPassengerId(scheduleToSave.getPassengerId());
+        List<Schedule> busyPassengers = scheduleRepository.findByPassenger(scheduleToSave.getPassenger());
         isScheduleDateColidingWithSchedules(scheduleToSave,busyPassengers);
 
         return false;
