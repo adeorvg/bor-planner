@@ -69,11 +69,11 @@ public class Driver {
     @Override
     public String toString() {
         return
-            "{\"pesel\"=\"" + pesel + "\"" +
-            ", \"first_name\"=\"" + firstName + "\"" +
-            ", \"last_name\"=\"" + lastName + "\"" +
-            ", \"email\"=\"" + email + "\"" +
-            ", \"driving_license_number\"=\"" + drivingLicenseNumber + "\"" +
+            "{\"pesel\":\"" + pesel + "\"" +
+            ", \"firstName\":\"" + firstName + "\"" +
+            ", \"lastName\":\"" + lastName + "\"" +
+            ", \"email\":\"" + email + "\"" +
+            ", \"drivingLicenseNumber\":\"" + drivingLicenseNumber + "\"" +
             "}";
     }
 }

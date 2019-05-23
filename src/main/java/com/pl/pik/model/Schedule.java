@@ -132,14 +132,14 @@ public class Schedule {
     @Override
     public String toString() {
         return "Schedule{" +
-                "id=" + id +
-                ", driverId=" + driverId +
-                ", passengerId=" + passengerId +
-                ", carId=" + carId +
-                ", placeFrom='" + placeFrom + '\'' +
-                ", placeTo='" + placeTo + '\'' +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
+                "id:" + id +
+                ", driverId:" + driverId +
+                ", passengerId:" + passengerId +
+                ", carId:" + carId +
+                ", placeFrom:'" + placeFrom + '\'' +
+                ", placeTo:'" + placeTo + '\'' +
+                ", dateFrom:" + dateFrom +
+                ", dateTo:" + dateTo +
                 '}';
     }
 }

@@ -51,13 +51,13 @@ export class RidesCalendarComponent implements OnInit {
     this.activeDayIsOpen = true;
 
     this.driversService.getAllDrivers().subscribe((drivers: Driver[]) => {
-      drivers.forEach((driver: Driver) => this.drivers.push(driver.lastName));
+      drivers.forEach((driver: Driver) => this.drivers.push(driver.lastName + " " + driver.firstName));
     });
     this.carService.getAllCars().subscribe((cars: Car[]) => {
       cars.forEach((car: Car) => this.cars.push(car.registrationNumber));
     });
     this.vipService.getAllVIPs().subscribe((VIPs: Passanger[]) => {
-      VIPs.forEach((VIP: Passanger) => this.VIPs.push(VIP.lastName));
+      VIPs.forEach((VIP: Passanger) => this.VIPs.push(VIP.lastName + " " + VIP.firstName));
     });
     this.schedulePlannerService.getAllSchedules().subscribe((schedules: Schedule[]) => {
       schedules.forEach((receivedSchedule : Schedule) => {

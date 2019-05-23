@@ -22,8 +22,8 @@ export class CarAvailabilityService {
         
 
         const params = new HttpParams()
-            .set('dateFrom', dateFrom.toDateString())
-            .set('dateTo', dateTo.toDateString());
+            .set('dateFrom', dateFrom.toISOString().replace('T', ' ').split('.')[0])
+            .set('dateTo', dateTo.toISOString().replace('T', ' ').split('.')[0]);
 
         const url = `${this.apiEndpointAvailableCars}`;
         console.log(url);

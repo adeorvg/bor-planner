@@ -23,7 +23,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import localePl from '@angular/common/locales/pl';
 import { SchedulePlannerService } from './service/SchedulePlanerService';
-
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 registerLocaleData(localePl);
 
 @NgModule({
@@ -57,7 +57,7 @@ registerLocaleData(localePl);
       useFactory: adapterFactory
     })
   ],
-  providers: [CarAvailabilityService, SchedulePlannerService],
+  providers: [CarAvailabilityService, SchedulePlannerService,  {provide: OWL_DATE_TIME_LOCALE, useValue: 'pl'},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

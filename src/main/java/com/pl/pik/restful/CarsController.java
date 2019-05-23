@@ -27,7 +27,7 @@ public class CarsController {
         return carRepository.findAll().toString();
     }
 
-    @ResponseBody @GetMapping("/api/freecars")
+    @ResponseBody @GetMapping("/api/freeCars")
     public String carsController (@RequestParam(value="dateFrom") Timestamp dF,
                                   @RequestParam (value="dateTo") Timestamp dT)  {
         List<Car> freeCars = carRepository.findAll();

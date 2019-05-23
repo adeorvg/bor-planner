@@ -29,6 +29,10 @@ export class CarAvailabiltyFormComponent implements OnInit {
   submit() {
     this.dateFrom = new Date(this.form.get('dateFrom').value);
     this.dateTo = new Date(this.form.get('dateTo').value);
+    
+    this.dateFrom.setTime(this.dateFrom.getTime() - this.dateFrom.getTimezoneOffset()*60*1000);
+    this.dateTo.setTime(this.dateTo.getTime() - this.dateTo.getTimezoneOffset()*60*1000);
+
     this.carAvailabilityService.getCarAvailability(this.dateFrom, this.dateTo)
       .subscribe((cars: Car[])  => {
           this.availableCars = cars;

@@ -56,10 +56,10 @@ public class Car {
     @Override
     public String toString() {
         return
-                "{\"registration_number\"=\"" + registrationNumber + "\"" +
-                ", \"mark\"=\"" + mark + "\"" +
-                ", \"model\"=\"" + model + "\"" +
-                ", \"production_date\"=\"" + productionDate + "\"" +
+                "{\"registrationNumber\":\"" + registrationNumber + "\"" +
+                ", \"mark\":\"" + mark + "\"" +
+                ", \"model\":\"" + model + "\"" +
+                ", \"productionDate\":\"" + productionDate + "\"" +
                 "}";
     }
 }
