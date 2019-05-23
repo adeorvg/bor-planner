@@ -1,0 +1,120 @@
+<br />
+<div class="container">
+  <div class="row text-center">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()">
+          Poprzedni
+        </div>
+        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+          Dzisiaj
+        </div>
+        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()">
+          Następny
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'pl' }}</h3>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+          Miesiąc
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+          Tydzień
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+          Dzień
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+      [locale]="locale" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [locale]="locale"
+      [refresh]="refresh" >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+      [locale]="locale">
+    </mwl-calendar-day-view>
+  </div>
+
+  <br /><br /><br />
+
+  <h3>
+    Edytuj przejazdy
+    <button class="btn btn-primary pull-right" (click)="addEvent()">
+      Dodaj przejazd
+    </button>
+    <div class="clearfix"></div>
+  </h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Rozpoczęcie przejazdu</th>
+          <th>Zakończenie przejazdu</th>
+          <th>Przejazd z</th>
+          <th>Przejazd do</th>
+          <th>VIP</th>
+          <th>Kierowca</th>
+          <th>Samochód</th>
+          <th>Anuluj przejazd</th>
+          <th>Zapisz przejazd</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of dayEvents">
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
+              (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+              dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+          </td>
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end"
+              (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+              dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="event.schedule.startPlace" (change)="refresh.next()" />
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="event.schedule.endPlace" (change)="refresh.next()" />
+          </td>
+          <td>
+            <select value="event.schedule.passanger.lastName" placeholder="vip" id="vip" name="vip"  (change)="changeVIPValue($event)">
+                <option *ngFor="let vip of VIPs" [ngValue]="vip">{{vip}}</option>
+            </select>
+          </td>
+          <td>
+            <select value="event.schedule.driver.lastName" placeholder="kierowca" id="driver" name="driver"  (change)="changeDriverValue($event)">
+                <option *ngFor="let driver of drivers" [ngValue]="driver">{{driver}}</option>
+            </select>
+          </td>
+          <td>
+            <select value="event.schedule.car.registrationNumber" placeholder="Samochód" id="car" name="car"  (change)="changeCarValue($event)">
+                <option *ngFor="let car of cars" [ngValue]="car">{{car}}</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteEvent(event)">
+              Usuń
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="saveEvent(event)">
+              Edytuj
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
