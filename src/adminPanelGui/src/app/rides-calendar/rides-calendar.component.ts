@@ -13,6 +13,7 @@ import { CarAvailabilityService } from '../service/carAvailabilityService';
 import { SchedulePlannerService } from '../service/SchedulePlanerService';
 import { Passanger } from '../model/passanger';
 import { VipService } from '../service/vipService';
+import * as moment from 'moment';
 
 @Component({
   selector: 'rides-calendar',
@@ -48,6 +49,7 @@ export class RidesCalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   locale: string = 'pl';
+
 
 
   constructor(private modal: NgbModal, private driversService: DriversService,
@@ -96,7 +98,10 @@ export class RidesCalendarComponent implements OnInit {
             passanger: receivedSchedule.passenger.firstName + " " + receivedSchedule.passenger.lastName
         })
       })
-      this.dayEvents = this.events.filter(event => new Date() >= event.start && new Date() <= event.end);
+
+
+      this.dayEvents = this.events.filter(event => moment(new Date()).isAfter(event.start, 'day') &&
+            moment(new Date()).isBefore(event.end, 'day'));
     });
   }
 
@@ -115,7 +120,8 @@ export class RidesCalendarComponent implements OnInit {
         this.activeDayIsOpen = true;
       }
     }
-    this.dayEvents = this.events.filter(event => date >= event.start && date <= event.end);
+    this.dayEvents = this.events.filter(event => moment(date).isSameOrAfter(event.start, 'day') &&
+            moment(date).isSameOrBefore(event.end, 'day'));
     this.chosenDate = date;
   }
 
@@ -137,8 +143,11 @@ export class RidesCalendarComponent implements OnInit {
         passanger: ""
       }
     ];
-    this.dayEvents = this.events.filter(event => this.chosenDate >= event.start && this.chosenDate <= event.end);
+    this.dayEvents = this.events.filter(event => moment(this.chosenDate).isSameOrAfter(event.start, 'day') &&
+    moment(this.chosenDate).isSameOrBefore(event.end, 'day'));
   }
+
+
 
   deleteEvent(eventToDelete: RideCalendarEvent) {
     let scheduleToDelete = eventToDelete.schedule;
