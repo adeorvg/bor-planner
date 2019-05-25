@@ -1,12 +1,13 @@
 package com.pl.pik.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name="cars")
 public class Car {
-
 
     @Id
     @Column(name="registration_number")
@@ -16,6 +17,7 @@ public class Car {
 
     String model;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     @Column(name="production_date")
     Date productionDate;
 
