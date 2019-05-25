@@ -40,13 +40,8 @@ export class SchedulePlannerService {
     }
 
     deleteSchedule(schedule : Schedule) {
-        const url = `${this.apiEndpointCancelSchedule}`;
-        let param = new HttpParams()
-        .set('schedule', JSON.stringify(schedule));
-        let options = { params: param };
-
-      //  let body = JSON.stringify(schedule);
-        return this.http.delete<Schedule>(url, options);
+        const url = `${this.apiEndpointCancelSchedule}` + '/' + `${schedule.id}`;
+        return this.http.delete<Schedule>(url, httpOptions);
     }
 
     saveSchedule(schedule : Schedule) {

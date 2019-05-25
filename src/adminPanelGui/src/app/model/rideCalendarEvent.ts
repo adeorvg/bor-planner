@@ -10,6 +10,9 @@ export interface RideCalendarEvent extends CalendarEvent {
     resizable?: { beforeStart?: boolean; afterEnd?: boolean; };
     draggable?: boolean;
     meta?: any;
+    driver : string;
+    car: string;
+    passanger: string;
 
     schedule : Schedule;
 }

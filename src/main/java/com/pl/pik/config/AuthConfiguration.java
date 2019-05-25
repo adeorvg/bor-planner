@@ -31,12 +31,13 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/*").permitAll()
-                .antMatchers("/api/schedules/save*").permitAll()
-                .antMatchers("/api/schedules/delete*").permitAll()
+                .antMatchers("/api/schedules/save").permitAll()
+                .antMatchers("/api/schedules/delete/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic();
+
 
         http
                 .cors()

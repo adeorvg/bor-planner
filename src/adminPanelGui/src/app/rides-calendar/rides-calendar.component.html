@@ -90,17 +90,19 @@
             <input type="text" [(ngModel)]="event.schedule.placeTo" (change)="refresh.next()" />
           </td>
           <td>
-            <select value="event.schedule.passenger.lastName" placeholder="vip" id="vip" name="vip"  (change)="changeVIPValue($event, event.schedule)">
+            <select [ngModel]="event.passanger" placeholder="vip" id="vip" name="vip"  (change)="changeVIPValue($event, event.schedule)">
                 <option *ngFor="let vip of VIPs" [ngValue]="vip">{{vip}}</option>
             </select>
           </td>
           <td>
-            <select value="event.schedule.driver.lastName" placeholder="kierowca" id="driver" name="driver"  (change)="changeDriverValue($event, event.schedule)">
-                <option *ngFor="let driver of drivers" [ngValue]="driver">{{driver}}</option>
+             
+            <select  [ngModel]="event.driver" 
+            placeholder="kierowca" id="driver" name="driver"  (change)="changeDriverValue($event, event.schedule)">
+              <option *ngFor="let driver of drivers" [ngValue]="driver">{{driver}}</option>
             </select>
           </td>
           <td>
-            <select value="event.schedule.car.registrationNumber" placeholder="Samochód" id="car" name="car"  (change)="changeCarValue($event, event.schedule)">
+            <select [ngModel]="event.car"  placeholder="Samochód" id="car" name="car"  (change)="changeCarValue($event, event.schedule)">
                 <option *ngFor="let car of cars" [ngValue]="car">{{car}}</option>
             </select>
           </td>

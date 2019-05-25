@@ -2,6 +2,7 @@ package com.pl.pik.restful;
 
 import com.pl.pik.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,10 @@ public class ScheduleController {
     @Autowired
     ScheduleRepository scheduleRepository;
 
-
+    @RequestMapping("")
+    public ResponseEntity<List<Schedule>> getAllSchedules(){
+      return ResponseEntity.ok(scheduleRepository.findAll());
+    }
 
     @RequestMapping("/save")
     public boolean scheduleSave(@RequestBody Schedule scheduleToSave){
@@ -26,15 +30,20 @@ public class ScheduleController {
         }
     }
 
-    @RequestMapping("/delete")
-    public boolean scheduleDelete(@RequestBody Schedule scheduleToDelete){
-        for (Schedule schedule:scheduleRepository.findAll()) {
-            if (schedule.equals(scheduleToDelete)){
-                scheduleRepository.delete(schedule);
-                return true;
-            }
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity scheduleDelete(@PathVariable("id") Long id){
+        if (id == null) {
+            return ResponseEntity.badRequest().build();
         }
-        return false;
+
+        Schedule scheduleToDelete = scheduleRepository.findOne(id);
+        if (scheduleToDelete == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        scheduleRepository.delete(scheduleToDelete);
+        return ResponseEntity.ok().build();
+
     }
 
     private boolean isCollidindgWithSchedulesInDb(Schedule scheduleToSave){

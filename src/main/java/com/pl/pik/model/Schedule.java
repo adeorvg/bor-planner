@@ -5,25 +5,26 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+
 @Table(name="schedule")
 public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_generator")
-    @SequenceGenerator(name="schedule_generator", sequenceName = "schedule_seq")
+    @SequenceGenerator(name="schedule_generator", sequenceName = "schedule_seq", allocationSize = 1)
     long id;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
     private Passanger passenger;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
     private Car car;
 
@@ -115,13 +116,14 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return "Schedule{" +
-                "id:" + id +
-                passenger.toString() + car.toString() + driver.toString() +
-                ", placeFrom:'" + placeFrom + '\'' +
-                ", placeTo:'" + placeTo + '\'' +
-                ", dateFrom:" + dateFrom +
-                ", dateTo:" + dateTo +
+        return "{ \"id\":" + id +
+                ", \"placeFrom\":  \"" + placeFrom + '\"' +
+                ", \"placeTo\":  \"" + placeTo + '\"' +
+                ", \"dateFrom\" : \"" + dateFrom + '\"' +
+                ", \"dateTo\": \"" + dateTo + '\"' +
+                ", \"passenger\": " + passenger.toString() +
+                ", \"driver\": " + driver.toString() +
+                ", \"car\": " + car.toString()  +
                 '}';
     }
 
