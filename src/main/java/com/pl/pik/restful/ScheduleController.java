@@ -68,6 +68,8 @@ public class ScheduleController {
 
     private boolean isDateColiding(Schedule scheduleToCompare, List<Schedule> schedules){
         for (Schedule schedule:schedules){
+            if (schedule.getId() == scheduleToCompare.getId())
+                continue;
             if(! (schedule.getDateTo().before(scheduleToCompare.getDateFrom()) || schedule.getDateFrom().after(scheduleToCompare.getDateTo())))
                 return true;
         }
