@@ -33,7 +33,7 @@
             <textarea rows="1"  wrap="soft" style="overflow:hidden; resize:true;" type="text" [(ngModel)]="event.schedule.placeTo" ></textarea>
           </td>
           <td>
-            <select [ngModel]="event.passanger" placeholder="vip" id="vip" name="vip"
+            <select [ngModel]="event.passenger" placeholder="vip" id="vip" name="vip"
               (change)="changeVIPValue($event, event.schedule)">
               <option *ngFor="let vip of VIPs" [ngValue]="vip">{{vip}}</option>
             </select>

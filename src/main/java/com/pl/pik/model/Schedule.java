@@ -21,7 +21,7 @@ public class Schedule {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
-    private Passanger passenger;
+    private Passenger passenger;
 
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -43,7 +43,7 @@ public class Schedule {
     protected Schedule() {
     }
 
-    public Schedule(long id, Driver driver, Passanger passenger, Car car, String placeFrom, String placeTo,
+    public Schedule(long id, Driver driver, Passenger passenger, Car car, String placeFrom, String placeTo,
                     Timestamp dateFrom, Timestamp dateTo) {
         this.id = id;
         this.driver = driver;
@@ -135,11 +135,11 @@ public class Schedule {
         this.car = car;
     }
 
-    public Passanger getPassenger() {
+    public Passenger getPassenger() {
         return passenger;
     }
 
-    public void setPassenger(Passanger passenger) {
+    public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
     }
 

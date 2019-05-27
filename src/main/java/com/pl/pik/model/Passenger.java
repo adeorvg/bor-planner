@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="passengers")
-public class Passanger {
+public class Passenger {
 
     @Id
     long id;
@@ -20,7 +20,7 @@ public class Passanger {
 
     String email;
 
-    protected Passanger(){
+    protected Passenger(){
     }
 
 

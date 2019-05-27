@@ -50,7 +50,7 @@ export class RidesCalendarComponent implements OnInit {
           schedule: receivedSchedule,
           driver: receivedSchedule.driver.firstName + " " + receivedSchedule.driver.lastName,
           car: receivedSchedule.car.registrationNumber,
-          passanger: receivedSchedule.passenger.firstName + " " + receivedSchedule.passenger.lastName
+          passenger: receivedSchedule.passenger.firstName + " " + receivedSchedule.passenger.lastName
         })
       })
 
@@ -110,7 +110,7 @@ export class RidesCalendarComponent implements OnInit {
         schedule: new Schedule(),
         driver: "",
         car: "",
-        passanger: ""
+        passenger: ""
       }
     ];
     this.dayEvents = this.events.filter(event => moment(this.chosenDateSubject.getValue()).isSameOrAfter(event.start, 'day') &&

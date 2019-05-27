@@ -1,12 +1,12 @@
 import { Driver } from "./driver";
 import { Car } from "./car";
-import { Passanger } from "./passanger";
+import { Passenger } from "./passenger";
 
 export class Schedule {
     id : string;
     driver : Driver;
     car : Car;
-    passenger : Passanger;
+    passenger : Passenger;
     placeFrom : string;
     placeTo : string;
     dateFrom : Date;

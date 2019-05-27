@@ -12,7 +12,7 @@ export interface RideCalendarEvent extends CalendarEvent {
     meta?: any;
     driver : string;
     car: string;
-    passanger: string;
+    passenger: string;
 
     schedule : Schedule;
 }

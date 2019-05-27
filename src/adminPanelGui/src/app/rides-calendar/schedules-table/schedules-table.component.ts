@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RideCalendarEvent } from 'src/app/model/rideCalendarEvent';
 import { Driver } from 'src/app/model/driver';
 import { Car } from 'src/app/model/car';
-import { Passanger } from 'src/app/model/passanger';
+import { Passenger } from 'src/app/model/passenger';
 import { CarAvailabilityService } from 'src/app/service/carAvailabilityService';
 import { SchedulePlannerService } from 'src/app/service/SchedulePlanerService';
 import { VipService } from 'src/app/service/vipService';
@@ -26,7 +26,7 @@ export class SchedulesTableComponent implements OnInit {
   carsFullData: Array<Car> = new Array()
 
   VIPs: Array<String> = new Array();
-  VIPFullData: Array<Passanger> = new Array();
+  VIPFullData: Array<Passenger> = new Array();
 
 
   constructor(private carService: CarAvailabilityService, private schedulePlannerService: SchedulePlannerService,
@@ -48,8 +48,8 @@ export class SchedulesTableComponent implements OnInit {
       })
     });
 
-    this.vipService.getAllVIPs().subscribe((VIPs: Passanger[]) => {
-      VIPs.forEach((VIP: Passanger) => {
+    this.vipService.getAllVIPs().subscribe((VIPs: Passenger[]) => {
+      VIPs.forEach((VIP: Passenger) => {
         this.VIPs.push(VIP.firstName + " " + VIP.lastName);
         this.VIPFullData.push(VIP);
       });
@@ -96,7 +96,7 @@ export class SchedulesTableComponent implements OnInit {
     let VIP = event.target.value;
     let firstName = VIP.split(" ")[1];
     let lastName = VIP.split(" ")[2];
-    schedule.passenger = this.VIPFullData.find((passenger: Passanger) => passenger.firstName == firstName && passenger.lastName == lastName);
+    schedule.passenger = this.VIPFullData.find((passenger: Passenger) => passenger.firstName == firstName && passenger.lastName == lastName);
   }
 
   changeDriverValue(event, schedule: Schedule) {
