@@ -1,0 +1,44 @@
+<div class="container">
+  <h1>Dostępność samochodów</h1>
+  <div class="col-6">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label for="date">dostępne od</label>
+        <div class="input-group">
+          <input class="form-control" id="date" [owlDateTime]="dt2" required formControlName="dateFrom">
+          <div class="input-group-append">
+            <button class="example-trigger" [owlDateTimeTrigger]="dt2">
+              <i class="fa fa-calendar fa-2x"></i>
+            </button>
+            <owl-date-time #dt2></owl-date-time>
+          </div>
+        </div>
+      </div>
+      <p *ngIf="form.get('dateFrom').errors?.required && form.get('dateFrom').dirty" class="text-danger">
+        Pole wymagane
+      </p>
+
+      <div class="form-group">
+        <label for="date">dostępne do</label>
+        <div class="input-group">
+          <input class="form-control" id="dateTo" [owlDateTime]="dt3" required formControlName="dateTo" useValueAsDate>
+          <div class="input-group-append">
+            <button class="example-trigger" [owlDateTimeTrigger]="dt3">
+              <i class="fa fa-calendar fa-2x"></i>
+            </button>
+            <owl-date-time #dt3></owl-date-time>
+          </div>
+        </div>
+      </div>
+
+      <p *ngIf="form.get('dateTo').errors?.required && form.get('dateTo').dirty" class="text-danger">
+        Pole wymagane
+      </p>
+      <p *ngIf="form.errors?.dates && form.get('dateTo').dirty" class="text-danger">
+        Data końcowa powinna być późniejsza od daty początkowej
+      </p>
+      <button type="submit" [disabled]="form.invalid" class="btn btn-success" (click)="submit()">Sprawdź
+        dostępność</button>
+    </form>
+  </div>
+</div>

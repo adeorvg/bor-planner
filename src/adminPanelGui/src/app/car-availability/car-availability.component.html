@@ -1,0 +1,4 @@
+<car-availabilty-form #form></car-availabilty-form>
+<div *ngIf="form.availableCars">
+      <available-cars-list [cars] = form.availableCars> </available-cars-list>
+</div>
