@@ -10,7 +10,6 @@ import { registerLocaleData } from '@angular/common';
 import { CarAvailabilityComponent } from './car-availability/car-availability.component';
 import { CarAvailabiltyFormComponent } from './car-availability/car-availabilty-form/car-availabilty-form.component';
 import { CarAvailabilityService } from './service/carAvailabilityService';
-import { NgbdTimepicker } from './util/timepicker/timerpicker';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule }    from '@angular/common/http';
@@ -24,6 +23,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import localePl from '@angular/common/locales/pl';
 import { SchedulePlannerService } from './service/SchedulePlanerService';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { SchedulesTableComponent } from './rides-calendar/schedules-table/schedules-table.component';
 registerLocaleData(localePl);
 
 @NgModule({
@@ -31,9 +31,9 @@ registerLocaleData(localePl);
     AppComponent,
     CarAvailabilityComponent,
     CarAvailabiltyFormComponent,
-    NgbdTimepicker,
     AvailableCarsListComponent,
     RidesCalendarComponent,
+    SchedulesTableComponent,
     
    
   ],

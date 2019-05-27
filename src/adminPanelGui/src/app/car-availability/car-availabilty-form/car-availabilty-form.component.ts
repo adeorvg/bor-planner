@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarAvailabilityService } from 'src/app/service/carAvailabilityService';
-import { NgbTimeStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdTimepicker } from 'src/app/util/timepicker/timerpicker';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Car } from 'src/app/model/car';
 
 @Component({

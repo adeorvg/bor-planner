@@ -1,0 +1,67 @@
+<div class="mx-auto" style="width:80%">
+   <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Rozpoczęcie przejazdu</th>
+          <th>Zakończenie przejazdu</th>
+          <th>Przejazd z</th>
+          <th>Przejazd do</th>
+          <th>VIP</th>
+          <th>Kierowca</th>
+          <th>Samochód</th>
+          <th>Anuluj przejazd</th>
+          <th>Zapisz przejazd</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start" [altInput]="true"
+              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              placeholder="Not set" />
+          </td>
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" [altInput]="true"
+              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              placeholder="Not set" />
+          </td>
+          <td>
+            <textarea rows="1"  wrap="soft" style="overflow:hidden; resize:true;" type="text" [(ngModel)]="event.schedule.placeFrom" ></textarea>
+          </td>
+          <td>
+            <textarea rows="1"  wrap="soft" style="overflow:hidden; resize:true;" type="text" [(ngModel)]="event.schedule.placeTo" ></textarea>
+          </td>
+          <td>
+            <select [ngModel]="event.passanger" placeholder="vip" id="vip" name="vip"
+              (change)="changeVIPValue($event, event.schedule)">
+              <option *ngFor="let vip of VIPs" [ngValue]="vip">{{vip}}</option>
+            </select>
+          </td>
+          <td>
+
+            <select [ngModel]="event.driver" placeholder="kierowca" id="driver" name="driver"
+              (change)="changeDriverValue($event, event.schedule)">
+              <option *ngFor="let driver of drivers" [ngValue]="driver">{{driver}}</option>
+            </select>
+          </td>
+          <td>
+            <select [ngModel]="event.car" placeholder="Samochód" id="car" name="car"
+              (change)="changeCarValue($event, event.schedule)">
+              <option *ngFor="let car of cars" [ngValue]="car">{{car}}</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteEvent(event)">
+              Usuń
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="saveEvent(event)">
+              Zapisz
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

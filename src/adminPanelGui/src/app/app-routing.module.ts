@@ -12,6 +12,10 @@ const routes: Routes = [{
 }, {
   path: 'cars',
   component : CarAvailabilityComponent   
+}, {
+  path: '',
+  pathMatch: 'full',
+  redirectTo: 'calendar'
 }
 ];
 

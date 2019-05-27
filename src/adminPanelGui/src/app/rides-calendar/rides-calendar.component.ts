@@ -1,211 +1,129 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
-import { Subject } from 'rxjs';
-import { isSameDay, isSameMonth } from 'date-fns';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CustomDateFormatter } from './CustomDateFormatter';
+import { CalendarView } from 'angular-calendar';
+import { isSameMonth,  addDays, subDays} from 'date-fns';
 import { RideCalendarEvent } from '../model/rideCalendarEvent';
 import { Schedule } from '../model/schedule';
-import { Car } from '../model/car';
-import { Driver } from '../model/driver';
-import { DriversService } from '../service/driversService';
-import { CarAvailabilityService } from '../service/carAvailabilityService';
 import { SchedulePlannerService } from '../service/SchedulePlanerService';
-import { Passanger } from '../model/passanger';
-import { VipService } from '../service/vipService';
 import * as moment from 'moment';
+import { WeekDay } from 'calendar-utils';
+import { Polish } from "flatpickr/dist/l10n/pl.js"
+import flatpickr from "flatpickr"
+import { Subject, BehaviorSubject } from 'rxjs';
+
+flatpickr.localize(Polish);
 
 @Component({
   selector: 'rides-calendar',
   templateUrl: './rides-calendar.component.html',
   styleUrls: ['./rides-calendar.component.css'],
-  providers: [
-    {
-      provide: CalendarDateFormatter,
-      useClass: CustomDateFormatter
-    }
-  ]
+  
 })
 
 export class RidesCalendarComponent implements OnInit {
-
-  drivers: Array<String> = new Array();
-  driversFullData : Array<Driver> = new Array();
-
-  cars: Array<String> = new Array();
-  carsFullData: Array<Car> = new Array()
-
-  VIPs : Array<String> = new Array();
-  VIPFullData : Array<Passanger> = new Array();
-
   events: Array<RideCalendarEvent> = new Array();
   dayEvents: Array<RideCalendarEvent> = new Array();
 
-  chosenDate : Date = new Date();
-
-  activeDayIsOpen: boolean
+  chosenDateSubject: BehaviorSubject <Date> = new BehaviorSubject<Date>(new Date());
 
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   locale: string = 'pl';
 
+  refresh: Subject<any> = new Subject();
 
-
-  constructor(private modal: NgbModal, private driversService: DriversService,
-    private carService: CarAvailabilityService, private schedulePlannerService : SchedulePlannerService,
-    private vipService: VipService) { }
+  constructor(private schedulePlannerService: SchedulePlannerService) { }
 
   ngOnInit() {
-    this.activeDayIsOpen = true;
-
-    this.driversService.getAllDrivers().subscribe((drivers: Driver[]) => {
-      drivers.forEach((driver: Driver) => {
-        this.drivers.push(driver.firstName + " " + driver.lastName);
-        this.driversFullData.push(driver);
-      })
-    });
-
-    this.carService.getAllCars().subscribe((cars: Car[]) => {
-      cars.forEach((car: Car) => {
-        this.cars.push(car.registrationNumber);
-        this.carsFullData.push(car);
-      })
-    });
-
-    this.vipService.getAllVIPs().subscribe((VIPs: Passanger[]) => {
-      VIPs.forEach((VIP: Passanger) => {
-        this.VIPs.push(VIP.firstName + " " + VIP.lastName);
-        this.VIPFullData.push(VIP);
-      });
-    });
-
     this.schedulePlannerService.getAllSchedules().subscribe((schedules: Schedule[]) => {
-      schedules.forEach((receivedSchedule : Schedule) => {
+      schedules.forEach((receivedSchedule: Schedule) => {
         this.events.push({
-            start: new Date(receivedSchedule.dateFrom),
-            end: new Date(receivedSchedule.dateTo),
-            title: 'przejazd VIP (jakiś to string)',
-            allDay: false,
-            resizable: {
-              beforeStart: true,
-              afterEnd: true
-            },
-            draggable: true,
-            schedule: receivedSchedule,
-            driver : receivedSchedule.driver.firstName + " " + receivedSchedule.driver.lastName,
-            car: receivedSchedule.car.registrationNumber,
-            passanger: receivedSchedule.passenger.firstName + " " + receivedSchedule.passenger.lastName
+          start: new Date(receivedSchedule.dateFrom),
+          end: new Date(receivedSchedule.dateTo),
+          title: 'przejazd z ' + receivedSchedule.placeFrom + ' do ' + receivedSchedule.placeTo,
+          allDay: false,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true
+          },
+          draggable: true,
+          schedule: receivedSchedule,
+          driver: receivedSchedule.driver.firstName + " " + receivedSchedule.driver.lastName,
+          car: receivedSchedule.car.registrationNumber,
+          passanger: receivedSchedule.passenger.firstName + " " + receivedSchedule.passenger.lastName
         })
       })
 
+      this.chosenDateSubject.subscribe( date =>  {
+        this.dayEvents = this.events.filter(event => moment(date).isSameOrAfter(event.start, 'day') &&
+        moment(date).isSameOrBefore(event.end, 'day'));
+      })
+      this.dayEvents = this.events.filter(event => moment(new Date()).isSameOrAfter(event.start, 'day') &&
+        moment(new Date()).isSameOrBefore(event.end, 'day'));
 
-      this.dayEvents = this.events.filter(event => moment(new Date()).isAfter(event.start, 'day') &&
-            moment(new Date()).isBefore(event.end, 'day'));
+        this.refresh.next();
     });
+  
   }
-
 
   CalendarView = CalendarView;
 
-  dayClicked({ date, events }: { date: Date; events: RideCalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      this.viewDate = date;
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
+  refreshCalendarView(){
+    this.refresh.next();
+  }
+
+  changeChosenDate(calendarView : CalendarView, change : number){
+    if (calendarView === CalendarView.Day){
+      if (change > 0) {
+        this.chosenDateSubject.next(addDays(this.chosenDateSubject.getValue(), 1))
+      } else if (change == 0) {
+        this.chosenDateSubject.next(new Date());
+      } else if (change < 0) {
+        this.chosenDateSubject.next(subDays(this.chosenDateSubject.getValue(), 1))
       }
     }
-    this.dayEvents = this.events.filter(event => moment(date).isSameOrAfter(event.start, 'day') &&
-            moment(date).isSameOrBefore(event.end, 'day'));
-    this.chosenDate = date;
+  }
+
+  dayClicked(date : Date): void {
+    if (isSameMonth(date, this.viewDate)) {
+      this.viewDate = date;
+    }
+    this.chosenDateSubject.next(date)
+  }
+
+  dayClickedWeekView(weekDay: WeekDay) {
+    this.chosenDateSubject.next(weekDay.date);
   }
 
   addEvent(): void {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
-        start: this.chosenDate,
-        end: this.chosenDate,
+        title: '',
+        start: this.chosenDateSubject.getValue(),
+        end: this.chosenDateSubject.getValue(),
         draggable: true,
         resizable: {
           beforeStart: true,
           afterEnd: true
         },
         schedule: new Schedule(),
-        driver : "",
-        car : "",
+        driver: "",
+        car: "",
         passanger: ""
       }
     ];
-    this.dayEvents = this.events.filter(event => moment(this.chosenDate).isSameOrAfter(event.start, 'day') &&
-    moment(this.chosenDate).isSameOrBefore(event.end, 'day'));
+    this.dayEvents = this.events.filter(event => moment(this.chosenDateSubject.getValue()).isSameOrAfter(event.start, 'day') &&
+      moment(this.chosenDateSubject.getValue()).isSameOrBefore(event.end, 'day'));
   }
 
-
-
-  deleteEvent(eventToDelete: RideCalendarEvent) {
-    let scheduleToDelete = eventToDelete.schedule;
-    scheduleToDelete.dateFrom = eventToDelete.start;
-    scheduleToDelete.dateTo = eventToDelete.end;
-       //TODO result handling - exception alert or dialog confirming that schedule was saved successfully
-    this.schedulePlannerService.deleteSchedule(scheduleToDelete).subscribe();
-
-    this.events = this.events.filter(event => event !== eventToDelete);
+  updateEventListAfterDeletion(eventToDelete : RideCalendarEvent){
+     this.events = this.events.filter(event => event !== eventToDelete);
     this.dayEvents = this.dayEvents.filter(event => event !== eventToDelete);
+    this.refresh.next();
   }
 
-  saveEvent(eventToSave: RideCalendarEvent) {
-    let scheduleToSave = eventToSave.schedule;
-
-    if (eventToSave.start > eventToSave.end){
-      window.alert("data zakończenia przejazdu powinna być późniejsza niż data rozpoczęcia");
-      return;
-    }
-
-    scheduleToSave.dateFrom = eventToSave.start;
-    scheduleToSave.dateTo = eventToSave.end;
-
-    console.log(scheduleToSave);
-    //TODO result handling - exception alert or dialog confirming that schedule was saved successfully
-    this.schedulePlannerService.saveSchedule(eventToSave.schedule).subscribe();
-  }
-
-  setView(view: CalendarView) {
+setView(view: CalendarView) {
     this.view = view;
   }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
-
-  changeVIPValue(event, schedule : Schedule){
-      let VIP = event.target.value;
-      let firstName = VIP.split(" ")[1];
-      let lastName = VIP.split(" ")[2];
-      console.log(firstName)
-      console.log(lastName)
-      console.log(this.VIPFullData)
-      schedule.passenger = this.VIPFullData.find((passenger : Passanger) => passenger.firstName == firstName && passenger.lastName == lastName);
-  }
-
-  changeDriverValue(event, schedule : Schedule){
-    let newDriver = event.target.value;
-    let firstName = newDriver.split(" ")[1];
-    let lastName = newDriver.split(" ")[2];
-
-    schedule.driver = this.driversFullData.find((driver : Driver) => driver.firstName == firstName && driver.lastName == lastName);
-  }
-
-  changeCarValue(event, schedule){
-    let carRegistrationNumber = event.target.value.split(" ")[1];
-    schedule.car = this.carsFullData.find((car : Car) => car.registrationNumber == carRegistrationNumber);
-  }
-
-
 }
