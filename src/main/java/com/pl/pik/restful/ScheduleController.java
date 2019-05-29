@@ -37,8 +37,9 @@ public class ScheduleController {
     EntityManager entityManager;
 
     @RequestMapping("/schedule")
-    public String getDriverSchedule(@RequestParam String username, @RequestParam String interval) throws SQLException {
-        return GetDriverSchedule(username, interval.replace('-', ' '));
+    public String getDriverSchedule(@RequestParam String username, @RequestParam int interval) throws SQLException {
+        String databaseInterval = Integer.toString(interval) + " days";
+        return GetDriverSchedule(username, databaseInterval);
     }
 
 
