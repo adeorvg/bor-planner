@@ -1,6 +1,7 @@
 package com.pl.pik.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,7 +22,7 @@ public class Car {
     @Column(name="production_date")
     Date productionDate;
 
-    protected Car() {}
+    public Car() {}
 
     public String getRegistrationNumber() {
         return registrationNumber;
