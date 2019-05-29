@@ -31,12 +31,18 @@ public class CarsController {
     @ResponseBody @GetMapping("/api/freeCars")
     public ResponseEntity<List<Car>> getFreeCars(@RequestParam(value="dateFrom") Timestamp dF,
                                   @RequestParam (value="dateTo") Timestamp dT)  {
-        List<Car> freeCars = carRepository.findAll();
-        for (Schedule schedule:scheduleRepository.findAll()) {
+
+        return ResponseEntity.ok(getFreeCarsBetweenTimestamps(dF,dT,carRepository,scheduleRepository));
+    }
+
+    List<Car> getFreeCarsBetweenTimestamps(Timestamp dF, Timestamp dT, CarRepository carRepo, ScheduleRepository scheduleRepo){
+        List<Car> freeCars = carRepo.findAll();
+        List<Schedule> schedulesList = scheduleRepo.findAll();
+        for (Schedule schedule:schedulesList) {
             if (! (schedule.getDateFrom().after(dT) || schedule.getDateTo().before(dF)) ) {
-                freeCars.remove(carRepository.findByRegistrationNumber(schedule.getCar().getRegistrationNumber()));
+                freeCars.remove(schedule.getCar());
             }
         }
-        return ResponseEntity.ok(freeCars);
+        return freeCars;
     }
 }
