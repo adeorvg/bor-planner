@@ -8,6 +8,7 @@ import { SchedulePlannerService } from 'src/app/service/SchedulePlanerService';
 import { VipService } from 'src/app/service/vipService';
 import { DriversService } from 'src/app/service/driversService';
 import { Schedule } from 'src/app/model/schedule';
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'schedules-table',
@@ -60,10 +61,15 @@ export class SchedulesTableComponent implements OnInit {
     let scheduleToDelete = eventToDelete.schedule;
     scheduleToDelete.dateFrom = eventToDelete.start;
     scheduleToDelete.dateTo = eventToDelete.end;
-    //TODO result handling - exception alert or dialog confirming that schedule was saved successfully
-
     if (scheduleToDelete.id != null) {
-      this.schedulePlannerService.deleteSchedule(scheduleToDelete).subscribe();
+      this.schedulePlannerService.deleteSchedule(scheduleToDelete).subscribe(
+        () => {
+          window.alert("Przejazd został usnięty")
+        },
+        (httpError : HttpErrorResponse) => {
+          window.alert("Błąd serwera: " + httpError.error);
+        }
+      );
     }
 
     this.events = this.events.filter(event => event !== eventToDelete);
@@ -87,8 +93,15 @@ export class SchedulesTableComponent implements OnInit {
     scheduleToSave.dateTo = eventToSave.end;
     eventToSave.title = 'przejazd z ' + scheduleToSave.placeFrom + ' do ' + scheduleToSave.placeTo;
 
-    //TODO result handling - exception alert or dialog confirming that schedule was saved successfully
-    this.schedulePlannerService.saveSchedule(eventToSave.schedule).subscribe();
+    this.schedulePlannerService.saveSchedule(eventToSave.schedule).subscribe(
+      (savedSchedule : Schedule ) => {
+        scheduleToSave.id = savedSchedule.id;
+        window.alert("Przejazd został zapisany")
+      },
+      (httpError : HttpErrorResponse) => {
+        window.alert(httpError.error);
+      }
+    );
     this.saveEventMsg.emit(eventToSave);
   }
 
