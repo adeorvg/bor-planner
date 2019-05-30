@@ -11,7 +11,7 @@ public class FtpConnection {
     private final String ftpUsername = "borowik";
     private final String ftpPassword = "borowik";
     private final int ftpPort = 21;
-    private final String ftpAddress = "10.1.243.220";
+    private final String ftpAddress = "10.0.0.4";
 
 
     public String getPassengerPicture(String filename) {
