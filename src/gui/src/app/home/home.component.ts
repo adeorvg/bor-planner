@@ -4,9 +4,15 @@ import {Observable, throwError} from "rxjs";
 import {Router} from "@angular/router";
 import {HomeService} from "./home.service";
 import {Reservation} from "./reservation";
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
   selector: 'home',
+  styles: [`
+    table {
+      width: 100%;
+    }
+  `],
   templateUrl: './home.component.html',
   providers: [HomeService]
 })
@@ -16,6 +22,7 @@ export class HomeComponent implements OnInit {
   error: any;
   username: string;
   reservations: Reservation[];
+  displayedColumns: string[] = ['Od:', 'Do:', 'Początek', 'Koniec', 'Imie', 'Nazwisko','Email', 'Zdjecie'];
 
   constructor(
     private homeService: HomeService,
@@ -47,9 +54,13 @@ export class HomeComponent implements OnInit {
   }
 
   showReservation() : void {
-    this.homeService.getReservations(this.username, 3)
-      .subscribe(reservations => {
-        this.reservations = reservations;
-      });
-  }
+    if ((this.model.numberOfDays =='' || isNaN(this.model.numberOfDays)))
+      alert("Podaj prawidlową liczbę dni:");
+    else
+      this.homeService.getReservations(this.username, this.model.numberOfDays)
+        .subscribe(reservations => {
+          this.reservations = reservations;
+        });
+    }
 }
+

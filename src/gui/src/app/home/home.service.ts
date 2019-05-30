@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Reservation} from "./reservation";
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -7,16 +7,18 @@ import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
 export class HomeService {
-  reservationUrl = 'assets/jazda.json';
+  reservationUrl = 'http://localhost:8082/schedule';
 
   constructor(private http: HttpClient) {
   }
 
   getReservations(user: string, days: number) :Observable<Reservation[]> {
-    const options  = {params: new HttpParams().set('username', user).set('interval', days.toString())};
+    let headers: HttpHeaders = new HttpHeaders({
+      "Authorization": "Basic " + sessionStorage.getItem('token')
+    });
+    const options  = {params: new HttpParams().set('username', user).set('interval', days.toString()), headers: headers};
     return this.http.get<Reservation[]>(this.reservationUrl, options)
       .pipe(
-        retry(3), // retry a failed request up to 3 times
         catchError(this.handleError) // then handle the error
       );
   }
