@@ -3,6 +3,7 @@ package com.pl.pik.restful;
 import com.pl.pik.FTP.FtpConnection;
 import com.pl.pik.model.*;
 import org.hibernate.procedure.ProcedureCall;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,11 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,8 +37,9 @@ public class ScheduleController {
     EntityManager entityManager;
 
     @RequestMapping("/schedule")
-    public String getDriverSchedule(@RequestParam String username, @RequestParam String interval) throws SQLException {
-        return GetDriverSchedule(username, interval.replace('-', ' '));
+    public String getDriverSchedule(@RequestParam String username, @RequestParam int interval) throws SQLException {
+        String databaseInterval = Integer.toString(interval) + " days";
+        return GetDriverSchedule(username, databaseInterval);
     }
 
 
@@ -74,14 +72,13 @@ public class ScheduleController {
                     .put("picture", encodedFile);
             jsonDriverSchedule.add(jsonObject);
         }
+        JSONArray jsonArray = new JSONArray();
 
-        JSONObject responseJSONObject = new JSONObject();
-        int i = 0;
         for (JSONObject jsonObject : jsonDriverSchedule) {
-            responseJSONObject.put(Integer.toString(i), jsonObject);
-            ++i;
+            jsonArray.put(jsonObject);
         }
-        return responseJSONObject.toString();
+
+        return jsonArray.toString();
     }
 }
 
