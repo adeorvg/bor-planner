@@ -1,0 +1,24 @@
+[
+  {
+    "firstName": "Artur",
+    "placeTo": "Pałac Prezydencki",
+    "dateTo": "2019-05-26 19:00:00",
+    "dateFrom": "2019-05-26 17:00:00",
+    "placeFrom": "Ambasada USA",
+    "email": "amirkowski.vip@gmail.com",
+    "picture": "string z zakodowanym base64 obrazkiem",
+    "secondName": "Mirkowski"
+  },
+  {
+  "firstName": "Artur",
+  "placeTo": "Pałac Prezydencki",
+  "dateTo": "2019-05-26 19:00:00",
+  "dateFrom": "2019-05-26 17:00:00",
+  "placeFrom": "Ambasada USA",
+  "email": "amirkowski.vip@gmail.com",
+  "picture": "string z zakodowanym base64 obrazkiem",
+  "secondName": "Mirkowski"
+  }
+]
+
+

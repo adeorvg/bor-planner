@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
         this.router.navigate(['/home']);
       } else {
-        alert("Authentication failed.")
+        alert("Nieprawidłowe dane logowania")
       }
     });
   }
