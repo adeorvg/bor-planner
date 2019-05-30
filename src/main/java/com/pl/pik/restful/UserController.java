@@ -21,7 +21,7 @@ public class UserController {
 
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
-        if(repository.findByUsername(user.getUsername()).size() > 0 && repository.findByUsername(user.getUsername()).get(0).getPassword().equals(user.getPassword()))
+        if (repository.findByUsername(user.getUsername()).size() > 0 && repository.findByUsername(user.getUsername()).get(0).getPassword().equals(user.getPassword()))
             return true;
         else
             return false;
@@ -31,7 +31,7 @@ public class UserController {
     public Principal user(HttpServletRequest request) {
         String authToken = request.getHeader("Authorization")
                 .substring("Basic".length()).trim();
-        return () ->  new String(Base64.getDecoder()
+        return () -> new String(Base64.getDecoder()
                 .decode(authToken)).split(":")[0];
     }
 }
