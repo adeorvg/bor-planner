@@ -1,9 +1,11 @@
 package com.pl.pik.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.context.annotation.Bean;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -23,6 +25,13 @@ public class Car {
     Date productionDate;
 
     public Car() {}
+
+    public Car(String registrationNumber, String mark, String model, Date productionDate) {
+        this.registrationNumber = registrationNumber;
+        this.mark = mark;
+        this.model = model;
+        this.productionDate = productionDate;
+    }
 
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -52,17 +61,17 @@ public class Car {
         return productionDate;
     }
 
-    public void setProductionDate(String Date) {
-        this.productionDate = productionDate;
+    public void setProductionDate(Date date) {
+        this.productionDate = date;
     }
 
     @Override
     public String toString() {
         return
                 "{\"registrationNumber\":\"" + registrationNumber + "\"" +
-                ", \"mark\":\"" + mark + "\"" +
-                ", \"model\":\"" + model + "\"" +
-                ", \"productionDate\":\"" + productionDate + "\"" +
+                ",\"mark\":\"" + mark + "\"" +
+                ",\"model\":\"" + model + "\"" +
+                ",\"productionDate\":\"" + productionDate + "\"" +
                 "}";
     }
 }

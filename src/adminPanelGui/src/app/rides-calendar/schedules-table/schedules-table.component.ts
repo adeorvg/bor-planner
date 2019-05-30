@@ -9,6 +9,7 @@ import { VipService } from 'src/app/service/vipService';
 import { DriversService } from 'src/app/service/driversService';
 import { Schedule } from 'src/app/model/schedule';
 import {HttpErrorResponse} from "@angular/common/http";
+import { SaveScheduleExceptionCause } from 'src/app/model/saveScheduleExceptionCause';
 
 @Component({
   selector: 'schedules-table',
@@ -99,7 +100,12 @@ export class SchedulesTableComponent implements OnInit {
         window.alert("Przejazd został zapisany")
       },
       (httpError : HttpErrorResponse) => {
-        window.alert(httpError.error);
+        let cause : SaveScheduleExceptionCause =  httpError.error;
+        let errorMsg = SaveScheduleExceptionCause[cause];
+        if (errorMsg === undefined){
+          errorMsg = "Wystąpił błąd serwera, proszę skontaktować się z administratorem systemu"
+        }
+        window.alert(errorMsg)
       }
     );
     this.saveEventMsg.emit(eventToSave);

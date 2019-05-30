@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -24,7 +26,7 @@ public class CarsTests{
     @Test
     public void givenCarEntityRepository_whenSaveAndRetreiveEntity_thenOK() {
         Car car = new Car();
-        car.setMark("BMW"); car.setModel("6"); car.setProductionDate("1"); car.setRegistrationNumber("123");
+        car.setMark("BMW"); car.setModel("6"); car.setProductionDate(new Date()); car.setRegistrationNumber("123");
         carRepo.save(car);
         Car foundCar = carRepo
                 .findByRegistrationNumber("123");

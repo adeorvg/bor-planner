@@ -18,9 +18,11 @@ import java.util.List;
 public class CarsController {
 
     @Autowired
+    private
     CarRepository carRepository;
 
     @Autowired
+    private
     ScheduleRepository scheduleRepository;
 
     @ResponseBody @GetMapping("/api/cars")
@@ -35,7 +37,7 @@ public class CarsController {
         return ResponseEntity.ok(getFreeCarsBetweenTimestamps(dF,dT,carRepository,scheduleRepository));
     }
 
-    List<Car> getFreeCarsBetweenTimestamps(Timestamp dF, Timestamp dT, CarRepository carRepo, ScheduleRepository scheduleRepo){
+    private List<Car> getFreeCarsBetweenTimestamps(Timestamp dF, Timestamp dT, CarRepository carRepo, ScheduleRepository scheduleRepo){
         List<Car> freeCars = carRepo.findAll();
         List<Schedule> schedulesList = scheduleRepo.findAll();
         for (Schedule schedule:schedulesList) {

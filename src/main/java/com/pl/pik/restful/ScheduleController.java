@@ -1,5 +1,7 @@
 package com.pl.pik.restful;
 
+import com.pl.pik.exception.SaveScheduleExceptionCause;
+import com.pl.pik.exception.ScheduleOperationException;
 import com.pl.pik.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,7 @@ public class ScheduleController {
             e.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
-                    .body(e.getMessage());
+                    .body(e.getExceptionCause());
         }
     }
 
@@ -55,15 +57,18 @@ public class ScheduleController {
     private void checkCollisionsWithDbSchedules(Schedule scheduleToSave) throws ScheduleOperationException {
         List<Schedule> busyDrivers= scheduleRepository.findByDriver(scheduleToSave.getDriver());
         if(isDateColiding(scheduleToSave,busyDrivers))
-            throw new ScheduleOperationException("Given driver is busy at the time");
+            throw new ScheduleOperationException("Given driver is busy at the time",
+                    SaveScheduleExceptionCause.BUSY_DRIVER);
 
         List<Schedule> busyCars = scheduleRepository.findByCar(scheduleToSave.getCar());
         if(isDateColiding(scheduleToSave,busyCars))
-            throw new ScheduleOperationException("Given car is busy at the time");
+            throw new ScheduleOperationException("Given car is busy at the time",
+                    SaveScheduleExceptionCause.BUSY_CAR);
 
         List<Schedule> busyPassengers = scheduleRepository.findByPassenger(scheduleToSave.getPassenger());
         if(isDateColiding(scheduleToSave,busyPassengers))
-            throw new ScheduleOperationException("Given passenger is busy at the time");
+            throw new ScheduleOperationException("Given passenger is busy at the time",
+                    SaveScheduleExceptionCause.BUSY_PASSENGER);
     }
 
     private boolean isDateColiding(Schedule scheduleToCompare, List<Schedule> schedules){
