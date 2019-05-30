@@ -1,18 +1,31 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {Router} from "@angular/router";
+import {HomeService} from "./home.service";
+import {Reservation} from "./reservation";
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-home',
+  selector: 'home',
+  styles: [`
+    table {
+      width: 100%;
+    }
+  `],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
 
+  model: any = {numberOfDays: ''};
+  error: any;
   username: string;
+  reservations: Reservation[];
+  displayedColumns: string[] = ['Od:', 'Do:', 'Początek', 'Koniec', 'Imie', 'Nazwisko','Email', 'Zdjecie'];
 
   constructor(
+    private homeService: HomeService,
     private http: HttpClient,
     private router: Router,
   ) {
@@ -39,4 +52,15 @@ export class HomeComponent implements OnInit {
   logout() {
     sessionStorage.setItem('token', '');
   }
+
+  showReservation() : void {
+    if ((this.model.numberOfDays =='' || isNaN(this.model.numberOfDays)))
+      alert("Podaj prawidlową liczbę dni:");
+    else
+      this.homeService.getReservations(this.username, this.model.numberOfDays)
+        .subscribe(reservations => {
+          this.reservations = reservations;
+        });
+    }
 }
+
