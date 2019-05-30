@@ -34,8 +34,8 @@ registerLocaleData(localePl);
     AvailableCarsListComponent,
     RidesCalendarComponent,
     SchedulesTableComponent,
-    
-   
+
+
   ],
   imports: [
     BrowserModule,

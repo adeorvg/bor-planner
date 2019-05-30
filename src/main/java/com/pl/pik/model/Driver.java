@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="drivers")
 public class Driver {
@@ -23,7 +24,16 @@ public class Driver {
     @Column(name = "driving_license_number")
     String drivingLicenseNumber;
 
-    protected Driver() {
+
+
+    public Driver(){};
+
+    public Driver(String pesel, String firstName, String lastName, String email, String drivingLicenseNumber) {
+        this.pesel = pesel;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.drivingLicenseNumber = drivingLicenseNumber;
     }
 
     public String getPesel() {
@@ -70,10 +80,10 @@ public class Driver {
     public String toString() {
         return
             "{\"pesel\":\"" + pesel + "\"" +
-            ", \"firstName\":\"" + firstName + "\"" +
-            ", \"lastName\":\"" + lastName + "\"" +
-            ", \"email\":\"" + email + "\"" +
-            ", \"drivingLicenseNumber\":\"" + drivingLicenseNumber + "\"" +
+            ",\"firstName\":\"" + firstName + "\"" +
+            ",\"lastName\":\"" + lastName + "\"" +
+            ",\"email\":\"" + email + "\"" +
+            ",\"drivingLicenseNumber\":\"" + drivingLicenseNumber + "\"" +
             "}";
     }
 }

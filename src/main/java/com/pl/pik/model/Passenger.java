@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="passengers")
+@Table(name = "passengers")
 public class Passenger {
 
     @Id
@@ -20,7 +20,14 @@ public class Passenger {
 
     String email;
 
-    protected Passenger(){
+    protected Passenger() {
+    }
+
+    public Passenger(long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
 
@@ -59,10 +66,11 @@ public class Passenger {
 
     @Override
     public String toString() {
-        return   "{ \"firstName\":\"" + firstName + "\"" +
-                        ", \"lastName\":\"" + lastName + "\"" +
-                        ", \"email\":\"" + email + "\"" +
-                        ", \"id\":\"" + id + "\"" +
-                        "}";
+        return "{" +
+                "\"id\":\"" + id + "\"" +
+                "\"firstName\":\"" + firstName + "\"" +
+                ",\"lastName\":\"" + lastName + "\"" +
+                ",\"email\":\"" + email + "\"" +
+                "}";
     }
 }

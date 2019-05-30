@@ -37,6 +37,6 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.5.10.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.4.RELEASE'
     runtime group: 'org.postgresql', name: 'postgresql', version:'9.4.1212.jre7'
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.5.10.RELEASE') 
-    
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.5.10.RELEASE')
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
     testCompile group: 'org.springframework.security', name: 'spring-security-test', version:'4.2.4.RELEASE'}

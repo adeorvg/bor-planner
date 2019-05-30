@@ -43,9 +43,8 @@ public class Schedule {
     protected Schedule() {
     }
 
-    public Schedule(long id, Driver driver, Passenger passenger, Car car, String placeFrom, String placeTo,
+    public Schedule(Driver driver, Passenger passenger, Car car, String placeFrom, String placeTo,
                     Timestamp dateFrom, Timestamp dateTo) {
-        this.id = id;
         this.driver = driver;
         this.passenger = passenger;
         this.car = car;
@@ -96,34 +95,15 @@ public class Schedule {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Schedule)) return false;
-        Schedule schedule = (Schedule) o;
-        return driver.equals(schedule.driver) &&
-                passenger.equals(schedule.passenger) &&
-                car.equals(schedule.car) &&
-                placeFrom.equals(schedule.placeFrom) &&
-                placeTo.equals(schedule.placeTo) &&
-                dateFrom.equals(schedule.dateFrom) &&
-                dateTo.equals(schedule.dateTo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(passenger, car, placeFrom, placeTo, dateFrom, dateTo);
-    }
-
-    @Override
     public String toString() {
-        return "{ \"id\":" + id +
-                ", \"placeFrom\":  \"" + placeFrom + '\"' +
-                ", \"placeTo\":  \"" + placeTo + '\"' +
-                ", \"dateFrom\" : \"" + dateFrom + '\"' +
-                ", \"dateTo\": \"" + dateTo + '\"' +
-                ", \"passenger\": " + passenger.toString() +
-                ", \"driver\": " + driver.toString() +
-                ", \"car\": " + car.toString()  +
+        return "{\"id\":" + id +
+                ",\"driver\":" + driver.toString() +
+                ",\"passenger\":" + passenger.toString() +
+                ",\"car\":" + car.toString()  +
+                ",\"placeFrom\": \"" + placeFrom + '\"' +
+                ",\"placeTo\": \"" + placeTo + '\"' +
+                ",\"dateFrom\":\"" + dateFrom + '\"' +
+                ",\"dateTo\":\"" + dateTo + '\"' +
                 '}';
     }
 
