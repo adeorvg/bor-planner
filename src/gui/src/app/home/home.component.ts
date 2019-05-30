@@ -1,18 +1,24 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {Router} from "@angular/router";
+import {HomeService} from "./home.service";
+import {Reservation} from "./reservation";
 
 @Component({
-  selector: 'app-home',
+  selector: 'home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
 
+  model: any = {numberOfDays: ''};
+  error: any;
   username: string;
+  reservations: Reservation[];
 
   constructor(
+    private homeService: HomeService,
     private http: HttpClient,
     private router: Router,
   ) {
@@ -38,5 +44,12 @@ export class HomeComponent implements OnInit {
 
   logout() {
     sessionStorage.setItem('token', '');
+  }
+
+  showReservation() : void {
+    this.homeService.getReservations(this.username, 3)
+      .subscribe(reservations => {
+        this.reservations = reservations;
+      });
   }
 }

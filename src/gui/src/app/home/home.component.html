@@ -1,4 +1,68 @@
-<div class="col-md-6 col-md-offset-3">
-  <h1>Hi {{username}}!</h1>
-  <p><a [routerLink]="['/login']" (click)="logout()">Logout</a></p>
-</div>
+<!--<div class="col-md-6 col-md-offset-3">-->
+  <!--<h1>Hi {{username}}!</h1>-->
+  <!--<p><a [routerLink]="['/login']" (click)="logout()">Logout</a></p>-->
+  <!--<button (click)="showReservation()">przycisk</button>-->
+<!--</div>-->
+
+
+
+  <!--&lt;!&ndash;<p *ngIf="reservations!==null">{{reservations | json}}</p>&ndash;&gt;-->
+
+<!--<ul class="
+heroes">-->
+  <!--<li *ngFor="let reservation of reservations">-->
+      <!--<p> {{reservation | json}}</p>-->
+  <!--</li>-->
+<!--</ul>-->
+
+
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>PIK-BOROWIKI</span>
+    <span class="example-fill-remaining-space"></span>
+    <span class="align-center"></span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{username}} Agenda</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form">
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="number of days to show: " [(ngModel)]="model.numberOfDays" name="numberOfDays" required>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <mat-card-actions>
+        <button mat-raised-button (click)="showReservation()" color="primary">Show my reservations</button>
+        <button mat-raised-button [routerLink]="['/login']" (click)="logout()" color="primary">Logout</button>
+      </mat-card-actions>
+    </form>
+    <tr *ngFor="let reservation of reservations">
+      <td> {{reservation.dateFrom | date }}</td>
+      <td> {{reservation.dateTo | date }}</td>
+      <td> {{reservation.email }}</td>
+      <td> {{reservation.firstName }}</td>
+      <td> {{reservation.picture}}</td>
+      <td> {{reservation.placeFrom }}</td>
+      <td> {{reservation.placeFrom }}</td>
+      <td> {{reservation.secondName }}</td>
+    </tr>
+  </mat-card-content>
+  <!--<ul class="heroes">-->
+    <!--<li *ngFor="let reservation of reservations">-->
+      <!--<a (click)="edit(hero)">-->
+        <!--<span class="badge">{{ hero.id || -1 }}</span>-->
+        <!--<span *ngIf="hero!==editHero">{{hero.name}}</span>-->
+        <!--<input *ngIf="hero===editHero" [(ngModel)]="hero.name"-->
+               <!--(blur)="update()" (keyup.enter)="update()">-->
+      <!--</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+</mat-card>
