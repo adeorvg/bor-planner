@@ -7,7 +7,7 @@ import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
 export class HomeService {
-  reservationUrl = 'http://40.68.60.147:8082/api/schedules/schedule';
+  reservationUrl = 'http://localhost:8082/api/schedules/schedule';
 
   constructor(private http: HttpClient) {
   }

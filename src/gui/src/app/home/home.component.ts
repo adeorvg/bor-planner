@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    let url = "http://40.68.60.147:8082/user";
+    let url = "http://localhost:8082/user";
     let headers: HttpHeaders = new HttpHeaders({
       "Authorization": "Basic " + sessionStorage.getItem('token')
     });
