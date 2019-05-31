@@ -99,12 +99,12 @@ public class Schedule {
         return "{\"id\":" + id +
                 ",\"driver\":" + driver.toString() +
                 ",\"passenger\":" + passenger.toString() +
-                ",\"car\":" + car.toString()  +
-                ",\"placeFrom\": \"" + placeFrom + '\"' +
-                ",\"placeTo\": \"" + placeTo + '\"' +
-                ",\"dateFrom\":\"" + dateFrom + '\"' +
-                ",\"dateTo\":\"" + dateTo + '\"' +
-                '}';
+                ",\"car\": "  + car.toString()  +
+                ",\"placeFrom\": \"" + placeFrom + "\"" +
+                ",\"placeTo\": \"" + placeTo + "\"" +
+                ",\"dateFrom\":\"" + dateFrom + "\"" +
+                ",\"dateTo\":\"" + dateTo + "\"" +
+                "}" ;
     }
 
     public Car getCar() {

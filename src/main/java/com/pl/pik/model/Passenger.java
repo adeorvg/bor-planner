@@ -68,7 +68,7 @@ public class Passenger {
     public String toString() {
         return "{" +
                 "\"id\":\"" + id + "\"" +
-                "\"firstName\":\"" + firstName + "\"" +
+                ",\"firstName\":\"" + firstName + "\"" +
                 ",\"lastName\":\"" + lastName + "\"" +
                 ",\"email\":\"" + email + "\"" +
                 "}";
