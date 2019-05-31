@@ -4,14 +4,14 @@
 
 export const environment = {
 
-  apiEndpointAvailableCars: 'http://localhost:8082/api/freeCars',
-  apiEndpointPlannedSchedules: 'http://localhost:8082/api/schedules',
-  apiEndpointAllDrivers: 'http://localhost:8082/api/drivers',
-  apiEnddpointAllCars: 'http://localhost:8082/api/cars',
-  apiEndpointAllSchedules: 'http://localhost:8082/api/schedules',
-  apiEndpointCancelSchedules: 'http://localhost:8082/api/schedules/delete',
-  apiEndpointSaveSchedules: 'http://localhost:8082/api/schedules/save',
-  apiEndpointAllVIPs : 'http://localhost:8082/api/VIPs',
+  apiEndpointAvailableCars: 'http://40.68.60.147:8082/api/freeCars',
+  apiEndpointPlannedSchedules: 'http://40.68.60.147:8082/api/schedules',
+  apiEndpointAllDrivers: 'http://40.68.60.147:8082/api/drivers',
+  apiEnddpointAllCars: 'http://40.68.60.147:8082/api/cars',
+  apiEndpointAllSchedules: 'http://40.68.60.147:8082/api/schedules',
+  apiEndpointCancelSchedules: 'http://40.68.60.147:8082/api/schedules/delete',
+  apiEndpointSaveSchedules: 'http://40.68.60.147:8082/api/schedules/save',
+  apiEndpointAllVIPs : 'http://40.68.60.147:8082/api/VIPs',
   
   production: false
 };
